@@ -1,0 +1,6 @@
+[[vars]]
+variable = "lambda_module_name"
+description = "the name of the lambda module"
+[[vars]]
+variable = "lambda_module_version"
+description = "the version of the module to use in the source"

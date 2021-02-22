@@ -1,0 +1,19 @@
+module "{{var.lambda_module_name}}" {
+  source = "git@github.geo.conti.de:CT-IBD/cmn-terraform-modules-terraform-infra.git//aws/lambda?ref=aws-lambda-function-{{var.lambda_module_version}}"
+
+  function_name = "cmn-application-management-nodejs-service-create-application-dev"
+  source_code_bucket = "cmn-lambda-deployment-dev"
+  handler =  "src/index-aws.handler"
+  runtime =   "nodejs12.x"
+  environment_variable_list = {APPLICATIONS_TABLE_NAME = "cmn-applications-dev"}
+  execution_role_arn = aws_iam_role.cmn_lambda_role_dev.arn
+  tag_list   = {Environment = "dev", Service = "cmn-application-management-nodejs-service"}
+  archive_file_type = "zip"
+  archive_file_output_path = "../../create/build/source.zip"
+  archive_file_source_directory = "../../create"
+  source_code_bucket_key = "cmn-application-management-nodejs-service-dev/cmn-application-management-nodejs-service-create-application-dev.zip"
+  source_code_bucket_name = "cmn-lambda-deployment-dev"
+  api_gateway_invoke_arn = "${aws_api_gateway_rest_api.cmn_application_management_dev.execution_arn}/dev/POST/create"
+  function_log_retention_period = 14
+}
+
